@@ -1,0 +1,38 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Home</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-row>
+        <ion-col align-self-center>
+            <ion-list>
+                <ion-radio-group (ionChange)="roleChanged($event)">
+                    <ion-list-header>
+                        <ion-label>Choose user role:</ion-label>
+                    </ion-list-header>
+
+                    <ion-item>
+                        <ion-label>Admin</ion-label>
+                        <ion-radio slot="start" value="admin" checked></ion-radio>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label>Customer</ion-label>
+                        <ion-radio slot="start" value="customer"></ion-radio>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label>Driver</ion-label>
+                        <ion-radio slot="start" value="driver"></ion-radio>
+                    </ion-item>
+                </ion-radio-group>
+            </ion-list>
+        </ion-col>
+    </ion-row>
+
+    <ion-row justify-content-center>
+        <ion-button justify-content-center color="success" (click)="redirectToNextPage()">Next</ion-button>
+    </ion-row>
+</ion-content>
