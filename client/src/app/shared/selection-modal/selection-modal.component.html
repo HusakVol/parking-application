@@ -1,0 +1,9 @@
+<div class="modal-content">
+    <button class="action-button" disabled>
+        <ion-icon class="action-icon" name="share"></ion-icon>
+    </button>
+    <span>{{ getTitleMessage() }}</span>
+    <button class="action-button" (click)="deleteSelectedItems()" [disabled]="itemsCount <= 0">
+        <ion-icon class="action-icon" name="trash"></ion-icon>
+    </button>
+</div>

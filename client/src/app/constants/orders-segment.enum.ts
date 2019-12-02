@@ -1,0 +1,5 @@
+export const OrdersSegment = {
+    PLANNED_ORDERS: 'PLANNED_ORDERS',
+    ACTIVE_ORDERS: 'ACTIVE_ORDERS',
+    ARCHIVED_ORDERS: 'ARCHIVED_ORDERS',
+};

@@ -1,9 +1,18 @@
-<ion-header>
-    <ion-toolbar>
-        <ion-title>Customer</ion-title>
-    </ion-toolbar>
-</ion-header>
+<ion-tabs>
+    <ion-tab-bar slot="bottom">
+        <ion-tab-button tab="tracking">
+            <ion-icon name="eye"></ion-icon>
+            <ion-label>Tracking</ion-label>
+        </ion-tab-button>
 
-<ion-content>
+        <ion-tab-button tab="orders">
+            <ion-icon name="basket"></ion-icon>
+            <ion-label>Orders</ion-label>
+        </ion-tab-button>
 
-</ion-content>
+        <ion-tab-button tab="search">
+            <ion-icon name="search"></ion-icon>
+            <ion-label>Search</ion-label>
+        </ion-tab-button>
+    </ion-tab-bar>
+</ion-tabs>

@@ -7,14 +7,17 @@ import { IonicModule } from '@ionic/angular';
 import { CustomerPageRoutingModule } from './customer-routing.module';
 
 import { CustomerPage } from './customer.page';
+import { SelectionModalComponent } from '../../shared/selection-modal/selection-modal.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    CustomerPageRoutingModule
-  ],
-  declarations: [CustomerPage]
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        CustomerPageRoutingModule
+    ],
+    declarations: [CustomerPage, SelectionModalComponent],
+    entryComponents: [SelectionModalComponent]
 })
-export class CustomerPageModule {}
+export class CustomerPageModule {
+}

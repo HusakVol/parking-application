@@ -1,0 +1,23 @@
+.modal-content {
+  height: 100%;
+  padding: 0 1em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.action-icon {
+  font-size: 2em;
+  margin: 0;
+  padding: 0;
+}
+
+.action-button {
+  background-color: inherit;
+  font-size: 1em;
+  color: #3880ff;
+}
+
+.action-button[disabled] {
+  color: #c8c8c8;
+}
