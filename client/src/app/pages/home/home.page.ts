@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { HomeRouting } from '../../constants/home-routing.enum';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
     selector: 'app-home',
@@ -7,19 +8,13 @@ import { Router } from '@angular/router';
     styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-    selectedRole = 'admin';
+    public homeRouting = HomeRouting;
+    public user: any = null;
 
-    constructor(private router: Router) {
+    constructor(private authService: AuthService) {
     }
 
     ngOnInit() {
-    }
-
-    public roleChanged(event): void {
-        this.selectedRole = event.detail.value;
-    }
-
-    public redirectToNextPage(): void {
-        this.router.navigate([`/${this.selectedRole}`]);
+        this.user = this.authService.getUser();
     }
 }

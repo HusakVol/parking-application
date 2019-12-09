@@ -11,11 +11,18 @@ import { AppComponent } from './app.component';
 import { IonicStorageModule } from '@ionic/storage';
 import { Camera } from '@ionic-native/camera/ngx';
 import { HttpClientModule } from '@angular/common/http';
+import { SelectionModalComponent } from './shared/selection-modal/selection-modal.component';
 
 @NgModule({
-    declarations: [AppComponent],
-    entryComponents: [],
-    imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, IonicStorageModule.forRoot(), HttpClientModule],
+    declarations: [AppComponent, SelectionModalComponent],
+    entryComponents: [SelectionModalComponent],
+    imports: [
+        BrowserModule,
+        IonicModule.forRoot(),
+        AppRoutingModule,
+        IonicStorageModule.forRoot(),
+        HttpClientModule
+    ],
     providers: [
         StatusBar,
         SplashScreen,

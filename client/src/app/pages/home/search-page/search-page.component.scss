@@ -1,0 +1,23 @@
+.search-spinner {
+  display: flex;
+  justify-content: center;
+  margin-top: 5vh;
+}
+
+.segments-list-header {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.card-segment-badge {
+  display: block;
+  width: 3em;
+  height: 1em;
+  margin-left: 2em;
+}
+
+.card-segment-subtitle {
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+}

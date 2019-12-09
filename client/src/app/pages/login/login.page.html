@@ -1,0 +1,24 @@
+<ion-header>
+    <ion-toolbar>
+        <div class="page-header">
+            <h1>Login</h1>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list lines="full" class="login-form">
+        <ion-item>
+            <ion-label class="login-field-label" position="stacked">Username</ion-label>
+            <ion-input (ionChange)="updateUsername($event)"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label class="login-field-label" position="stacked">Password</ion-label>
+            <ion-input type="password" (ionChange)="updatePassword($event)"></ion-input>
+        </ion-item>
+
+        <ion-button class="login-button" (click)="login()" expand="block">Login</ion-button>
+    </ion-list>
+
+</ion-content>

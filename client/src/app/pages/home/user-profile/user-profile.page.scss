@@ -1,0 +1,28 @@
+.logout-button {
+  color: #3880ff;
+  cursor: pointer;
+}
+
+.user-avatar {
+  width: 5.5em;
+  height: 5.5em;
+}
+
+.profile-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-info {
+  h1 {
+    font-size: 30px;
+    margin-bottom: 0;
+  }
+
+  h4 {
+    margin-top: 0.1em;
+    color: #7f7f7f;
+  }
+}
