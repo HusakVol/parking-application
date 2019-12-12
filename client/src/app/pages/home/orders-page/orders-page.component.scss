@@ -2,8 +2,19 @@
   position: absolute;
   top: 1em;
   right: 2em;
+  pointer-events: none;
 }
 
 .order-card {
   position: relative;
+}
+
+.order-card {
+  .card.selected {
+    opacity: 0.7;
+  }
+
+  .card.unselected {
+    opacity: 0.3;
+  }
 }

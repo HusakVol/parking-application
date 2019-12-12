@@ -16,4 +16,8 @@ export class OrdersService {
     public getOrders(): Observable<Order[]> {
         return this.http.get<Order[]>(`${this.apiUrl}/orders`);
     }
+
+    public createOrder(order: Order): Observable<void> {
+        return this.http.post<void>(`${this.apiUrl}/orders`, order);
+    }
 }

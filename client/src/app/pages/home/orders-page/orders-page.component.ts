@@ -51,10 +51,12 @@ export class OrdersPage implements OnInit {
         return !this.isSelectionActive;
     }
 
-    public selectOrder(event: CustomEvent, orderId: number): void {
-        const isSelected = event.detail.checked;
+    public redirectToOrderPage(orderId: number): void {
+        console.log('Redirected to ' + orderId);
+    }
 
-        if (isSelected) {
+    public selectOrder(orderId: number): void {
+        if (!this.isOrderSelected(orderId)) {
             this.selectedOrdersIds.push(orderId);
         } else {
             this.selectedOrdersIds = this.selectedOrdersIds.filter(id => id !== orderId);
@@ -71,6 +73,17 @@ export class OrdersPage implements OnInit {
         } else {
             this.dismissSelectionModal();
         }
+    }
+
+    public getOrderCardClass(orderId: number): string {
+        const isOrderSelected = this.isOrderSelected(orderId);
+        return this.isSelectionActive ?
+            isOrderSelected ? 'card selected' : 'card unselected'
+            : 'card';
+    }
+
+    public isOrderSelected(orderId: number): boolean {
+        return this.selectedOrdersIds.includes(orderId);
     }
 
     private showSelectionModal(): void {

@@ -1,5 +1,5 @@
 <ion-tabs>
-    <ion-tab-bar slot="bottom">
+    <ion-tab-bar *ngIf="isTabsVisible()" slot="bottom">
         <ion-tab-button [tab]="homeRouting.MY_PROFILE">
             <ion-icon name="person"></ion-icon>
             <ion-label>My profile</ion-label>

@@ -1,7 +1,12 @@
 export interface Order {
-    id: number,
-    type: string;
-    title: string,
-    subTitle: string;
-    content: string
+    id?: number;
+    title: string;
+    description: string;
+    initialPayment?: number;
+    deadlineDate?: Date;
+
+
+    type?: string;
+    subTitle?: string;
+    content?: string
 }
