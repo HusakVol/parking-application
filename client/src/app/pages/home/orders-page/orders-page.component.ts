@@ -52,7 +52,7 @@ export class OrdersPage implements OnInit {
     }
 
     public redirectToOrderPage(orderId: number): void {
-        console.log('Redirected to ' + orderId);
+        this.router.navigateByUrl(`/home/orders/${orderId}`);
     }
 
     public selectOrder(orderId: number): void {

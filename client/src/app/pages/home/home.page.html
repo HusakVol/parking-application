@@ -1,18 +1,8 @@
 <ion-tabs>
     <ion-tab-bar *ngIf="isTabsVisible()" slot="bottom">
-        <ion-tab-button [tab]="homeRouting.MY_PROFILE">
-            <ion-icon name="person"></ion-icon>
-            <ion-label>My profile</ion-label>
-        </ion-tab-button>
-
-        <ion-tab-button [tab]="homeRouting.MY_ORDERS">
-            <ion-icon name="basket"></ion-icon>
-            <ion-label>Orders</ion-label>
-        </ion-tab-button>
-
-        <ion-tab-button [tab]="homeRouting.SEARCH">
-            <ion-icon name="search"></ion-icon>
-            <ion-label>Search</ion-label>
+        <ion-tab-button *ngFor="let homeTab of getHomeTabs()" [tab]="homeTab.tab">
+            <ion-icon [name]="homeTab.icon"></ion-icon>
+            <ion-label>{{ homeTab.title }}</ion-label>
         </ion-tab-button>
     </ion-tab-bar>
 </ion-tabs>

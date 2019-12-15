@@ -4,7 +4,7 @@ export interface Order {
     description: string;
     initialPayment?: number;
     deadlineDate?: Date;
-
+    isTracked: boolean | false;
 
     type?: string;
     subTitle?: string;

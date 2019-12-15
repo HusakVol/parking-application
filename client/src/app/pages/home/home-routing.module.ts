@@ -11,9 +11,13 @@ const routes: Routes = [
         children: [
             {
                 path: HomeRouting.MY_PROFILE,
-                loadChildren: () =>
-                    import('./user-profile/user-profile.module')
-                        .then(m => m.UserProfilePageModule)
+                loadChildren: () => import('./user-profile/user-profile.module')
+                    .then(m => m.UserProfilePageModule)
+            },
+            {
+                path: HomeRouting.ORDER,
+                loadChildren: () => import('./order/order.module')
+                    .then(m => m.OrderPageModule)
             },
             {
                 path: HomeRouting.MY_ORDERS,
@@ -28,20 +32,24 @@ const routes: Routes = [
             {
                 path: HomeRouting.SEARCH,
                 loadChildren: () => import('./search-page/search-page.module')
-                    .then(m => m.Tab3PageModule)
+                    .then(m => m.SearchPageModule)
+            },
+            {
+                path: HomeRouting.ORDERS_QUEUE,
+                loadChildren: () => import('./orders-queue/orders-queue.module').then(m => m.OrdersQueuePageModule)
             },
             {
                 path: '',
-                redirectTo: `/home/${HomeRouting.MY_ORDERS}`,
+                redirectTo: `/home/${HomeRouting.MY_PROFILE}`,
                 pathMatch: 'full'
             }
         ],
     },
     {
         path: '',
-        redirectTo: `/home/${HomeRouting.MY_ORDERS}`,
+        redirectTo: `/home/${HomeRouting.MY_PROFILE}`,
         pathMatch: 'full'
-    }
+    },
 ];
 
 @NgModule({

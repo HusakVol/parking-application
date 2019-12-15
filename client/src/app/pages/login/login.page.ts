@@ -37,7 +37,17 @@ export class LoginPage {
                 this.loading.dismiss().then();
 
                 if (res) {
-                    this.router.navigateByUrl('/');
+                    switch (this.authService.getUser().role) {
+                        case 'CUSTOMER':
+                            this.router.navigateByUrl('/home/my-orders');
+                            break;
+                        case 'DRIVER':
+                            this.router.navigateByUrl('/tracking');
+                            break;
+                        default:
+                            this.router.navigateByUrl('/');
+                            break;
+                    }
                 } else {
                     this.toast = await this.toastCtrl.create({
                         header: 'Login Failed',

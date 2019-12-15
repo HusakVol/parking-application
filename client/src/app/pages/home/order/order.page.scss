@@ -1,0 +1,21 @@
+.order-loading-spinner {
+  display: flex;
+  justify-content: center;
+  margin-top: 50%;
+}
+
+.order-info {
+  h1, p, .item-label {
+    padding: 0.5vh 3.5vw;
+  }
+
+  h5 {
+    color: rgb(120, 120, 120);
+  }
+}
+
+.process-order-action {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}

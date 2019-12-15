@@ -1,0 +1,40 @@
+<ion-header *ngIf="!isLoading">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button [defaultHref]="getPreviousUrl()"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Order #{{ order.id }}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list *ngIf="!isLoading" class="order-info">
+        <h1>{{ order.title }}</h1>
+
+        <ion-item class="ion-no-padding">
+            <ion-label>Payment</ion-label>
+            <ion-note slot="end" color="primary">
+                {{ order.initialPayment || "1000$" }}
+            </ion-note>
+        </ion-item>
+
+        <ion-item class="ion-no-padding">
+            <ion-label>Deadline date</ion-label>
+            <ion-note slot="end" color="primary">
+                {{ order.deadlineDate || now.format("d/M/Y, h:mm a") }}
+            </ion-note>
+        </ion-item>
+
+        <p>{{ order.content }}</p>
+    </ion-list>
+
+    <div *ngIf="!isLoading && isProcessOrderButtonVisible()"
+         (click)="processOrder()"
+         class="process-order-action">
+        <ion-button expand="full" color="success">Process order</ion-button>
+    </div>
+
+    <div *ngIf="isLoading" class="order-loading-spinner">
+        <ion-spinner></ion-spinner>
+    </div>
+</ion-content>

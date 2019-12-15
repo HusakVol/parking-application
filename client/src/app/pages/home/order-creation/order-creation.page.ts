@@ -4,6 +4,7 @@ import { ToastController } from '@ionic/angular';
 import { OrdersService } from '../../../services/orders.service';
 import { Order } from '../../../models/order.model';
 import * as moment from 'moment';
+import { RoutingState } from '../../../utils/routing-state';
 
 @Component({
     selector: 'app-order-creation',
@@ -19,7 +20,8 @@ export class OrderCreationPage implements OnInit {
     constructor(
         private fb: FormBuilder,
         private toastCtrl: ToastController,
-        private ordersService: OrdersService
+        private ordersService: OrdersService,
+        private routingState: RoutingState
     ) {
     }
 
@@ -48,6 +50,10 @@ export class OrderCreationPage implements OnInit {
         this.ordersService.createOrder(order).subscribe(() => {
             this.form.reset();
         });
+    }
+
+    public getPreviousUrl(): string {
+        return this.routingState.getPreviousUrl();
     }
 
     private initFormBuilder(): void {

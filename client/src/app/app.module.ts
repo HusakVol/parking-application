@@ -12,6 +12,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { Camera } from '@ionic-native/camera/ngx';
 import { HttpClientModule } from '@angular/common/http';
 import { SelectionModalComponent } from './shared/selection-modal/selection-modal.component';
+import { RoutingState } from './utils/routing-state';
 
 @NgModule({
     declarations: [AppComponent, SelectionModalComponent],
@@ -28,6 +29,7 @@ import { SelectionModalComponent } from './shared/selection-modal/selection-moda
         SplashScreen,
         Camera,
         HttpClientModule,
+        RoutingState,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
     ],
     bootstrap: [AppComponent]

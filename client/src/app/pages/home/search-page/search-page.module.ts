@@ -14,4 +14,4 @@ import { SearchPage } from './search-page.component';
   ],
   declarations: [SearchPage]
 })
-export class Tab3PageModule {}
+export class SearchPageModule {}
