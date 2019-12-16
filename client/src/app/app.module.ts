@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { IonicStorageModule } from '@ionic/storage';
 import { Camera } from '@ionic-native/camera/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { HttpClientModule } from '@angular/common/http';
 import { SelectionModalComponent } from './shared/selection-modal/selection-modal.component';
 import { RoutingState } from './utils/routing-state';
@@ -28,6 +29,7 @@ import { RoutingState } from './utils/routing-state';
         StatusBar,
         SplashScreen,
         Camera,
+        Geolocation,
         HttpClientModule,
         RoutingState,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}

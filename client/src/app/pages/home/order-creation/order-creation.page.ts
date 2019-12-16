@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { OrdersService } from '../../../services/orders.service';
-import { Order } from '../../../models/order.model';
 import * as moment from 'moment';
 import { RoutingState } from '../../../utils/routing-state';
+import { Coordinates, Order } from '../../../models/order.model';
+import { Router } from '@angular/router';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+
+declare var google;
 
 @Component({
     selector: 'app-order-creation',
@@ -12,16 +16,32 @@ import { RoutingState } from '../../../utils/routing-state';
     styleUrls: ['./order-creation.page.scss'],
 })
 export class OrderCreationPage implements OnInit {
+
+    public map: any;
+    public orderStartLocationMarker: any;
+    public orderEndLocationMarker: any;
+
     public form: FormGroup;
+    public isLocationView = false;
 
     public minDate = moment().add(1, 'd').format('YYYY-MM-DD');
     public maxDate = moment().add(2, 'y').format('YYYY-MM-DD');
+
+    private mapElement: ElementRef;
+
+    @ViewChild('map', {static: false}) set content(map: ElementRef) {
+        this.mapElement = map;
+    }
 
     constructor(
         private fb: FormBuilder,
         private toastCtrl: ToastController,
         private ordersService: OrdersService,
-        private routingState: RoutingState
+        private routingState: RoutingState,
+        private alertCtrl: AlertController,
+        private loadingCtrl: LoadingController,
+        private router: Router,
+        private geolocation: Geolocation
     ) {
     }
 
@@ -40,20 +60,61 @@ export class OrderCreationPage implements OnInit {
             return;
         }
 
-        const order: Order = {
-            title: this.form.controls.title.value,
-            description: this.form.controls.description.value,
-            initialPayment: this.form.controls.initialPayment.value,
-            deadlineDate: this.buildDeadlineDate()
-        };
-
-        this.ordersService.createOrder(order).subscribe(() => {
-            this.form.reset();
-        });
+        this.setupMaps();
     }
 
     public getPreviousUrl(): string {
         return this.routingState.getPreviousUrl();
+    }
+
+    public createOrder(): void {
+        this.loadingCtrl.create({message: 'Creating order...'})
+            .then(loading => {
+                loading.present();
+
+                const startLocation: Coordinates = {
+                    lng: this.orderStartLocationMarker.getPosition().lng(),
+                    lat: this.orderStartLocationMarker.getPosition().lat()
+                };
+
+                const endLocation: Coordinates = {
+                    lng: this.orderEndLocationMarker.getPosition().lng(),
+                    lat: this.orderEndLocationMarker.getPosition().lat()
+                };
+
+                const order: Order = {
+                    title: this.form.controls.title.value,
+                    description: this.form.controls.description.value,
+                    initialPayment: this.form.controls.initialPayment.value,
+                    deadlineDate: this.buildDeadlineDate(),
+                    startLocation,
+                    endLocation
+                };
+
+                this.ordersService.createOrder(order).subscribe(() => {
+                    loading.dismiss().then();
+                    this.toastCtrl.create({
+                        header: 'Order was successfully created',
+                        color: 'success',
+                        duration: 1000
+                    }).then(toast => {
+                        toast.present();
+                        this.clearAndCloseForm();
+                    });
+
+                });
+            });
+    }
+
+    public closeForm(): void {
+        this.alertCtrl.create({
+            header: 'Confirm',
+            message: 'Are you sure you want to cancel order creation process?',
+            buttons: [
+                {text: 'No'},
+                {text: 'Yes', handler: () => this.clearAndCloseForm()}
+            ]
+        }).then(alert => alert.present());
     }
 
     private initFormBuilder(): void {
@@ -66,6 +127,40 @@ export class OrderCreationPage implements OnInit {
         });
     }
 
+    private clearAndCloseForm(): void {
+        this.form.reset();
+        this.isLocationView = false;
+        this.router.navigateByUrl('/home/my-orders');
+    }
+
+    private setupMaps(): void {
+        this.isLocationView = true;
+
+        this.geolocation.getCurrentPosition().then(res => {
+            this.map = this.getMapConfig({
+                lat: res.coords.latitude,
+                lng: res.coords.longitude
+            });
+
+            this.orderStartLocationMarker = this.getMarkerConfig({
+                label: 'A',
+                lat: res.coords.latitude,
+                lng: res.coords.longitude
+            });
+            this.orderStartLocationMarker.addListener('click', () => this.toggleBounce(this.orderStartLocationMarker));
+
+            this.orderEndLocationMarker = this.getMarkerConfig({
+                label: 'B',
+                lat: res.coords.latitude,
+                lng: res.coords.longitude + 0.005
+            });
+            this.orderEndLocationMarker.addListener('click', () => this.toggleBounce(this.orderEndLocationMarker));
+
+        }).catch((error) => {
+            console.log('Error getting location', error);
+        });
+    }
+
     private buildDeadlineDate(): Date {
         const date = moment(this.form.controls.deadlineDate.value);
         const time = moment(this.form.controls.deadlineTime.value);
@@ -75,5 +170,33 @@ export class OrderCreationPage implements OnInit {
             .set('m', time.get('m'))
             .set('s', 0)
             .toDate();
+    }
+
+    private toggleBounce(marker: any): void {
+        if (marker.getAnimation() !== null) {
+            marker.setAnimation(null);
+        } else {
+            marker.setAnimation(google.maps.Animation.BOUNCE);
+        }
+    }
+
+    private getMapConfig({lat, lng}): object {
+        return new google.maps.Map(
+            this.mapElement.nativeElement,
+            {
+                center: {lat, lng},
+                zoom: 12
+            }
+        );
+    }
+
+    private getMarkerConfig({label, lat, lng}): object {
+        return new google.maps.Marker({
+            map: this.map,
+            draggable: true,
+            label,
+            animation: google.maps.Animation.DROP,
+            position: {lat, lng}
+        });
     }
 }

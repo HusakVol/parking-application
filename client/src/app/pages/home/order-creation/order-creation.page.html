@@ -1,15 +1,27 @@
 <ion-header>
     <ion-toolbar>
-        <ion-buttons slot="start">
+        <ion-buttons *ngIf="!isLocationView" slot="start">
             <ion-back-button [defaultHref]="getPreviousUrl()"></ion-back-button>
         </ion-buttons>
+        <ion-button *ngIf="isLocationView"
+                    (click)="closeForm()"
+                    fill="clear"
+                    slot="start"
+                    color="primary">Close
+        </ion-button>
         <ion-title>Create order</ion-title>
+        <ion-button *ngIf="isLocationView"
+                    (click)="createOrder()"
+                    fill="clear"
+                    slot="end"
+                    color="primary">Create
+        </ion-button>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
     <div>
-        <form [formGroup]="form">
+        <form *ngIf="!isLocationView" [formGroup]="form">
             <ion-list lines="full" class="ion-no-margin ion-no-padding">
 
                 <h1 class="creation-form-header">Order Info</h1>
@@ -58,10 +70,12 @@
 
             <div class="next-action ion-padding ion-justify-content-end">
                 <ion-button (click)="processForm()" expand="clear" type="submit" class="ion-no-margin">
-                    Next
+                    Setup location
                     <ion-icon class="arrow-icon" name="arrow-forward"></ion-icon>
                 </ion-button>
             </div>
         </form>
+
+        <div *ngIf="isLocationView" #map class="map"></div>
     </div>
 </ion-content>
