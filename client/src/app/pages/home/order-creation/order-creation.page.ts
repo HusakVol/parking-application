@@ -60,7 +60,11 @@ export class OrderCreationPage implements OnInit {
             return;
         }
 
-        this.setupMaps();
+        this.alertCtrl.create({
+            header: 'Location setup',
+            message: 'Please, specify where order should be picked up (A marker) and where it should be taken (B marker).',
+            buttons: [{text: 'Got it!', handler: () => this.setupMaps()}]
+        }).then(alert => alert.present());
     }
 
     public getPreviousUrl(): string {
