@@ -5,27 +5,38 @@
         </ion-buttons>
         <ion-title>Order #{{ order.id }}</ion-title>
     </ion-toolbar>
+
+    <ion-segment style="padding: 0.5em;" (ionChange)="segmentChanged($event)">
+        <ion-segment-button value="info" checked layout="icon-start">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <ion-label>Info</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="map" layout="icon-start">
+            <ion-icon name="map"></ion-icon>
+            <ion-label>Map</ion-label>
+        </ion-segment-button>
+    </ion-segment>
 </ion-header>
 
 <ion-content>
-    <ion-list *ngIf="!isLoading" class="order-info">
+    <ion-list *ngIf="!isLoading && !isMapView" class="order-info">
         <h1>{{ order.title }}</h1>
 
         <ion-item class="ion-no-padding">
             <ion-label>Payment</ion-label>
             <ion-note slot="end" color="primary">
-                {{ order.initialPayment || "1000$" }}
+                {{ order.initialPayment + '$' }}
             </ion-note>
         </ion-item>
 
         <ion-item class="ion-no-padding">
             <ion-label>Deadline date</ion-label>
             <ion-note slot="end" color="primary">
-                {{ order.deadlineDate || now.format("d/M/Y, h:mm a") }}
+                {{ getFormattedDate(order.deadlineDate) }}
             </ion-note>
         </ion-item>
 
-        <p>{{ order.content }}</p>
+        <p>{{ order.description }}</p>
     </ion-list>
 
     <div *ngIf="!isLoading && isProcessOrderButtonVisible()"
@@ -37,4 +48,6 @@
     <div *ngIf="isLoading" class="order-loading-spinner">
         <ion-spinner></ion-spinner>
     </div>
+
+    <div *ngIf="isMapView" #map class="map"></div>
 </ion-content>

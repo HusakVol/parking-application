@@ -36,11 +36,11 @@
                 <ion-card [ngClass]="getOrderCardClass(order.id)"
                           (click)="isSelectionActive ? selectOrder(order.id) : redirectToOrderPage(order.id)">
                     <ion-card-header>
-                        <ion-card-subtitle>{{order.subTitle}}</ion-card-subtitle>
+                        <ion-card-subtitle>{{'Order #' + order.id}}</ion-card-subtitle>
                         <ion-card-title>{{order.title}}</ion-card-title>
                     </ion-card-header>
 
-                    <ion-card-content>{{order.content}}</ion-card-content>
+                    <ion-card-content class="text-truncate">{{order.description}}</ion-card-content>
                 </ion-card>
 
                 <ion-checkbox *ngIf="isSelectionActive"

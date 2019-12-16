@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Order } from '../../../models/order.model';
 import { OrdersService } from '../../../services/orders.service';
 import { ActivatedRoute } from '@angular/router';
@@ -6,6 +6,9 @@ import * as moment from 'moment';
 import { AuthService } from '../../../services/auth.service';
 import { LoadingController } from '@ionic/angular';
 import { RoutingState } from '../../../utils/routing-state';
+import { getFormattedDate } from '../../../utils';
+
+declare var google;
 
 @Component({
     selector: 'app-order',
@@ -17,8 +20,14 @@ export class OrderPage implements OnInit {
     public user: any = null;
     public isLoading = true;
     public now = moment();
+    public isMapView = false;
 
     private loading: any = null;
+    private mapElement: ElementRef;
+
+    @ViewChild('map', {static: false}) set content(map: ElementRef) {
+        this.mapElement = map;
+    }
 
     constructor(
         private ordersService: OrdersService,
@@ -52,6 +61,41 @@ export class OrderPage implements OnInit {
 
     public getPreviousUrl(): string {
         return this.routingState.getPreviousUrl();
+    }
+
+    public getFormattedDate(date: Date): string {
+        return getFormattedDate(date);
+    }
+
+    public segmentChanged(event: CustomEvent): void {
+        const segment = event.detail.value;
+        this.isMapView = segment === 'map';
+
+        if (this.isMapView) {
+            setTimeout(() => {
+                const map = new google.maps.Map(
+                    this.mapElement.nativeElement,
+                    {
+                        center: {...this.order.startLocation},
+                        zoom: 8
+                    }
+                );
+
+                const startMarker = new google.maps.Marker({
+                    map,
+                    label: 'A',
+                    animation: google.maps.Animation.DROP,
+                    position: {...this.order.startLocation}
+                });
+
+                const endMarker = new google.maps.Marker({
+                    map,
+                    label: 'B',
+                    animation: google.maps.Animation.DROP,
+                    position: {...this.order.endLocation}
+                });
+            }, 1);
+        }
     }
 
     private async showLoadingModal(): Promise<void> {
