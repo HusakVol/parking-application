@@ -75,6 +75,10 @@ export class AuthService {
         return this._userData.getValue();
     }
 
+    public onUserChanged(): Observable<any> {
+        return this._userData.asObservable();
+    }
+
     public logout(): void {
         this.storage.remove(TOKEN_KEY).then(() => {
             this.router.navigateByUrl('/login');

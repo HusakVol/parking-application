@@ -7,20 +7,19 @@
 </ion-header>
 
 <ion-content>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
     <div *ngIf="orders && orders.length">
-        <div class="order-card" *ngFor="let order of orders">
-            <ion-card>
+        <div *ngFor="let order of orders">
+            <ion-card (click)="redirectToOrderPage(order.id)">
                 <ion-card-header>
-                    <div (click)="redirectToOrderPage(order.id)">
-                        <ion-card-title>{{order.title}}</ion-card-title>
-                        <ion-card-subtitle>{{ 'Order #' + order.id}}</ion-card-subtitle>
-                    </div>
-                    <div class="card-content">
-                        <ion-label>Tracking</ion-label>
-                        <ion-toggle color="success"
-                                    (ionChange)="onOrderTrackingToggled($event, order.id)"></ion-toggle>
-                    </div>
+                    <ion-card-title>{{order.title}}</ion-card-title>
+                    <ion-card-subtitle>{{ 'Order #' + order.id}}</ion-card-subtitle>
                 </ion-card-header>
+
+                <ion-card-content class="text-truncate">{{order.description}}</ion-card-content>
             </ion-card>
         </div>
     </div>
@@ -31,7 +30,7 @@
 
     <div *ngIf="!orders">
         <div *ngFor="let _ of [].constructor(3)">
-            <ion-card disabled>
+            <ion-card>
                 <ion-card-header>
                     <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
                 </ion-card-header>

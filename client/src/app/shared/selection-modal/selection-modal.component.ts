@@ -11,6 +11,7 @@ export class SelectionModalComponent implements OnInit {
 
     @Input() itemsCountChange: BehaviorSubject<number>;
     @Input() itemName: string = 'Item';
+    @Input() onDelete: () => void;
 
     itemsCount = 0;
 
@@ -27,7 +28,11 @@ export class SelectionModalComponent implements OnInit {
         this.controller.create({
             header: this.getActionSheetHeader(),
             buttons: [
-                {text: this.getDeleteButtonText(), role: 'destructive'},
+                {
+                    text: this.getDeleteButtonText(),
+                    role: 'destructive',
+                    handler: () => this.onDelete()
+                },
                 {text: 'Cancel', role: 'cancel'}
             ]
         }).then(actionSheet => {

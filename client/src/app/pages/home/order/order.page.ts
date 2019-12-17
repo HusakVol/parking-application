@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Order } from '../../../models/order.model';
 import { OrdersService } from '../../../services/orders.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { AuthService } from '../../../services/auth.service';
 import { LoadingController } from '@ionic/angular';
@@ -34,7 +34,8 @@ export class OrderPage implements OnInit {
         private route: ActivatedRoute,
         private routingState: RoutingState,
         private authService: AuthService,
-        private loadingCtrl: LoadingController
+        private loadingCtrl: LoadingController,
+        private router: Router
     ) {
     }
 
@@ -49,13 +50,15 @@ export class OrderPage implements OnInit {
     }
 
     public isProcessOrderButtonVisible(): boolean {
-        return this.user.role === 'DRIVER';
+        return this.user.role === 'DRIVER' && !this.order.driverId;
     }
 
     public processOrder(): void {
         this.showLoadingModal().then(() => {
-            // TODO: logic to process order for driver
-            this.loading.dismiss().then();
+            this.ordersService.assignDriverToOrder(this.order.id).subscribe(() => {
+                this.loading.dismiss().then();
+                this.router.navigateByUrl('/home/orders-queue');
+            });
         })
     }
 

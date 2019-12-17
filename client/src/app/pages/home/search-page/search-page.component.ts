@@ -4,6 +4,8 @@ import { OrdersSegment, OrdersSegmentText } from '../../../constants/orders-segm
 import { Order } from '../../../models/order.model';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import * as moment from 'moment';
+import { now } from 'moment';
 
 @Component({
     selector: 'yx-customer-search',
@@ -11,12 +13,15 @@ import { AuthService } from '../../../services/auth.service';
     styleUrls: ['search-page.component.scss']
 })
 export class SearchPage implements OnInit {
+
     public segments = Object.keys(OrdersSegment);
     public segmentText = OrdersSegmentText;
     public isLoading = false;
     public currentUser: any = null;
 
     public searchedOrders: Order[] = [];
+
+    private searchQuery: string = '';
 
     constructor(
         private ordersService: OrdersService,
@@ -34,13 +39,13 @@ export class SearchPage implements OnInit {
 
         switch (OrdersSegment[segment]) {
             case OrdersSegment.ACTIVE_ORDERS:
-                result = this.searchedOrders.filter((o: Order) => o.type === OrdersSegment.ACTIVE_ORDERS);
+                result = this.searchedOrders.filter((o: Order) => !!o.driverId);
                 break;
             case OrdersSegment.PLANNED_ORDERS:
-                result = this.searchedOrders.filter((o: Order) => o.type === OrdersSegment.PLANNED_ORDERS);
+                result = this.searchedOrders.filter((o: Order) => moment(o.deadlineDate).isAfter(now()));
                 break;
             case OrdersSegment.ARCHIVED_ORDERS:
-                result = this.searchedOrders.filter((o: Order) => o.type === OrdersSegment.ARCHIVED_ORDERS);
+                result = this.searchedOrders.filter((o: Order) => moment(o.deadlineDate).isBefore(now()));
                 break;
             default:
                 result = [];
@@ -67,16 +72,17 @@ export class SearchPage implements OnInit {
     }
 
     public doRefresh(event): void {
-        this.ordersService.getOrders().subscribe(res => {
-            this.searchedOrders = res;
-            event.target.complete();
-        });
+        this.ordersService.getOrdersBySearchQuery(this.searchQuery)
+            .subscribe(orders => {
+                this.searchedOrders = orders;
+                event.target.complete();
+            });
     }
 
     public onSearchInputChanged(event): void {
-        const searchQuery = event.target.value;
+        this.searchQuery = event.target.value;
         this.isLoading = true;
-        this.ordersService.getOrdersBySearchQuery(searchQuery)
+        this.ordersService.getOrdersBySearchQuery(this.searchQuery)
             .subscribe(orders => {
                 this.searchedOrders = orders;
                 this.isLoading = false;

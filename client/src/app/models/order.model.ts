@@ -2,15 +2,11 @@ export interface Order {
     id?: number;
     title: string;
     description: string;
-    initialPayment?: number;
-    deadlineDate?: Date;
+    initialPayment: number;
+    deadlineDate: Date;
     startLocation: Coordinates;
     endLocation: Coordinates;
-    isTracked?: boolean | false;
-
-    type?: string;
-    subTitle?: string;
-    content?: string
+    driverId?: number;
 }
 
 export interface Coordinates {

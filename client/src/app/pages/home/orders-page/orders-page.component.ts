@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OrdersSegment } from '../../../constants/orders-segment.enum';
-import { ModalController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { SelectionModalComponent } from '../../../shared/selection-modal/selection-modal.component';
 import { BehaviorSubject } from 'rxjs';
 import { Order } from '../../../models/order.model';
@@ -27,13 +27,14 @@ export class OrdersPage implements OnInit {
     constructor(
         public modalController: ModalController,
         public ordersService: OrdersService,
-        private router: Router
+        private router: Router,
+        private loadingCtrl: LoadingController
     ) {
         this.orderSelectionSubject = new BehaviorSubject(this.selectedOrdersIds.length);
     }
 
     ngOnInit(): void {
-        this.ordersService.getOrders().subscribe(result => this.orders = result);
+        this.ordersService.getPlannedOrders().subscribe(result => this.orders = result);
     }
 
     public redirectToOrderCreationPage(): void {
@@ -43,8 +44,19 @@ export class OrdersPage implements OnInit {
     public segmentChanged(event: CustomEvent): void {
         this.selectedSegment = OrdersSegment[event.detail.value];
         this.orders = null;
-        this.ordersService.getOrders()
-            .subscribe(result => this.orders = result);
+
+        switch (this.selectedSegment) {
+            case OrdersSegment.ACTIVE_ORDERS:
+                this.ordersService.getActiveOrders().subscribe(result => this.orders = result);
+                break;
+            case OrdersSegment.PLANNED_ORDERS:
+                this.ordersService.getPlannedOrders().subscribe(result => this.orders = result);
+                break;
+            case OrdersSegment.ARCHIVED_ORDERS:
+                this.ordersService.getArchivedOrders().subscribe(result => this.orders = result);
+                break;
+            default:
+        }
     }
 
     public isAddOrderBtnVisible(): boolean {
@@ -93,8 +105,9 @@ export class OrdersPage implements OnInit {
             showBackdrop: false,
             componentProps: {
                 'itemsCountChange': this.orderSelectionSubject,
-                'itemName': 'Order'
-            }
+                'itemName': 'Order',
+                'onDelete': () => this.deleteSelectedOrders()
+            },
         }).then(m => {
             m.present();
             this.modal = m;
@@ -109,5 +122,18 @@ export class OrdersPage implements OnInit {
                 this.orderSelectionSubject.next(this.selectedOrdersIds.length);
             });
         }
+    }
+
+    private deleteSelectedOrders(): void {
+        this.loadingCtrl.create({message: 'Please wait...'})
+            .then(ctrl => {
+                ctrl.present();
+                this.ordersService.deleteOrdersByIds(this.selectedOrdersIds).subscribe(() => {
+                    this.ordersService.getPlannedOrders().subscribe(result => {
+                        this.orders = result;
+                        ctrl.dismiss().then();
+                    });
+                });
+            });
     }
 }

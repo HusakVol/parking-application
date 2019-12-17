@@ -42,7 +42,7 @@ export class LoginPage {
                             this.router.navigateByUrl('/home/my-orders');
                             break;
                         case 'DRIVER':
-                            this.router.navigateByUrl('/tracking');
+                            this.router.navigateByUrl('/home/orders-queue');
                             break;
                         default:
                             this.router.navigateByUrl('/');

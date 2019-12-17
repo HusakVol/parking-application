@@ -19,6 +19,7 @@ export class HomePage implements OnInit {
 
     ngOnInit() {
         this.user = this.authService.getUser();
+        this.authService.onUserChanged().subscribe(() => this.user = this.authService.getUser());
     }
 
     public isTabsVisible(): boolean {

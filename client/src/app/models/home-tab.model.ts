@@ -8,7 +8,6 @@ export const HomeTabs = {
     ],
     DRIVER: <HomeTab[]>[
         {tab: HomeRouting.MY_PROFILE, icon: 'person', title: 'Profile'},
-        {tab: HomeRouting.TRACKING, icon: 'navigate', title: 'Tracker'},
         {tab: HomeRouting.ORDERS_QUEUE, icon: 'bookmarks', title: 'Queue'},
         {tab: HomeRouting.SEARCH, icon: 'search', title: 'Search'}
     ]

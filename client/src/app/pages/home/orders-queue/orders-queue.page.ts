@@ -18,15 +18,17 @@ export class OrdersQueuePage implements OnInit {
     }
 
     ngOnInit() {
-        this.ordersService.getOrders().subscribe(orders => this.orders = orders);
+        this.ordersService.getAssignedToDriverOrders().subscribe(orders => this.orders = orders);
     }
 
     public redirectToOrderPage(orderId: number): void {
         this.router.navigateByUrl(`/home/orders/${orderId}`);
     }
 
-    public onOrderTrackingToggled(event, id: number): void {
-        event.preventDefault();
-        console.log(id);
+    public doRefresh(event): void {
+        this.ordersService.getAssignedToDriverOrders().subscribe(orders => {
+            this.orders = orders;
+            event.target.complete();
+        });
     }
 }

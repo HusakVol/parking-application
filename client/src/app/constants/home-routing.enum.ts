@@ -4,7 +4,6 @@ export const HomeRouting = {
     CREATE_ORDER: 'create-order',
 
     // DRIVER
-    TRACKING: 'tracking',
     ORDERS_QUEUE: 'orders-queue',
 
     // COMMON
