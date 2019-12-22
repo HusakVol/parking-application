@@ -11,9 +11,10 @@ import { AppComponent } from './app.component';
 import { IonicStorageModule } from '@ionic/storage';
 import { Camera } from '@ionic-native/camera/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SelectionModalComponent } from './shared/selection-modal/selection-modal.component';
 import { RoutingState } from './utils/routing-state';
+import { AuthInterceptor } from './services/auth.interceptor';
 
 @NgModule({
     declarations: [AppComponent, SelectionModalComponent],
@@ -32,7 +33,8 @@ import { RoutingState } from './utils/routing-state';
         Geolocation,
         HttpClientModule,
         RoutingState,
-        {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
+        {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+        {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     ],
     bootstrap: [AppComponent]
 })

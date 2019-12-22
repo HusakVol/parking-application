@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Order } from '../models/order.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
@@ -10,6 +10,15 @@ import { environment } from '../../environments/environment';
 export class OrdersService {
 
     private apiUrl: string = `${environment.apiUrl}/api`;
+    private _reloadOrders = new BehaviorSubject(null);
+
+    public reloadOrders(): void {
+        this._reloadOrders.next(true);
+    }
+
+    public getReloadOrdersObservable(): Observable<boolean> {
+        return this._reloadOrders.asObservable();
+    }
 
     constructor(private http: HttpClient) {
     }
@@ -36,7 +45,7 @@ export class OrdersService {
     }
 
     public getOrdersBySearchQuery(query: string): Observable<Order[]> {
-        return this.http.get<Order[]>(`${this.apiUrl}/orders`, {params: {searchQuery: query}});
+        return this.http.get<Order[]>(`${this.apiUrl}/orders`, {params: {title: query}});
     }
 
     // DELETE

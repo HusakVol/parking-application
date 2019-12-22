@@ -52,3 +52,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.no-data-text {
+  display: flex;
+  justify-content: center;
+  margin-top: 15em;
+}

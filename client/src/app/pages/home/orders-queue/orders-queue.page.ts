@@ -18,7 +18,11 @@ export class OrdersQueuePage implements OnInit {
     }
 
     ngOnInit() {
-        this.ordersService.getAssignedToDriverOrders().subscribe(orders => this.orders = orders);
+        this.getAssignedOrders();
+        this.ordersService.getReloadOrdersObservable().subscribe(() => {
+            this.orders = null;
+            this.getAssignedOrders();
+        });
     }
 
     public redirectToOrderPage(orderId: number): void {
@@ -30,5 +34,9 @@ export class OrdersQueuePage implements OnInit {
             this.orders = orders;
             event.target.complete();
         });
+    }
+
+    private getAssignedOrders(): void {
+        this.ordersService.getAssignedToDriverOrders().subscribe(orders => this.orders = orders);
     }
 }

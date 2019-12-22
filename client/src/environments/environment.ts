@@ -4,7 +4,7 @@
 
 export const environment = {
     production: false,
-    apiUrl: 'https://my-json-server.typicode.com/unrenamed/yarik-express-db-fake'
+    apiUrl: 'http://91.244.35.68:56788'
 };
 
 /*

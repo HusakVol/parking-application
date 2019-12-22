@@ -57,6 +57,7 @@ export class OrderPage implements OnInit {
         this.showLoadingModal().then(() => {
             this.ordersService.assignDriverToOrder(this.order.id).subscribe(() => {
                 this.loading.dismiss().then();
+                this.ordersService.reloadOrders();
                 this.router.navigateByUrl('/home/orders-queue');
             });
         })
@@ -79,7 +80,10 @@ export class OrderPage implements OnInit {
                 const map = new google.maps.Map(
                     this.mapElement.nativeElement,
                     {
-                        center: {...this.order.startLocation},
+                        center: {
+                            lng: parseFloat(this.order.startLocation.split(';')[0]),
+                            lat: parseFloat(this.order.startLocation.split(';')[1])
+                        },
                         zoom: 8
                     }
                 );
@@ -88,14 +92,20 @@ export class OrderPage implements OnInit {
                     map,
                     label: 'A',
                     animation: google.maps.Animation.DROP,
-                    position: {...this.order.startLocation}
+                    position: {
+                        lng: parseFloat(this.order.startLocation.split(';')[0]),
+                        lat: parseFloat(this.order.startLocation.split(';')[1])
+                    }
                 });
 
                 const endMarker = new google.maps.Marker({
                     map,
                     label: 'B',
                     animation: google.maps.Animation.DROP,
-                    position: {...this.order.endLocation}
+                    position: {
+                        lng: parseFloat(this.order.endLocation.split(';')[0]),
+                        lat: parseFloat(this.order.endLocation.split(';')[1])
+                    }
                 });
             }, 1);
         }

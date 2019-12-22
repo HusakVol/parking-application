@@ -16,6 +16,7 @@ export class UserProfilePage implements OnInit {
 
     ngOnInit() {
         this.user = this.authService.getUser();
+        this.authService.onUserChanged().subscribe(() => this.user = this.authService.getUser());
     }
 
     public logout(): void {

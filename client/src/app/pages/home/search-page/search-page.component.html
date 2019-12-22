@@ -12,35 +12,24 @@
 </ion-header>
 
 <ion-content>
-    <ion-refresher *ngIf="currentUser.role === 'DRIVER'" slot="fixed" (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
-
     <div *ngIf="isLoading" class="search-spinner">
         <ion-spinner></ion-spinner>
     </div>
 
     <div *ngIf="!isLoading && currentUser.role === 'CUSTOMER' && searchedOrders.length">
-        <ion-list *ngFor="let segment of segments">
-            <ion-list-header *ngIf="getOrdersByGivenSegment(segment).length"
-                             class="segments-list-header">
-                {{ segmentText[segment] }}
-            </ion-list-header>
-
-            <div *ngFor="let order of getOrdersByGivenSegment(segment)">
-                <ion-card (click)="redirectToOrderPage(order.id)">
-                    <ion-card-header>
-                        <ion-card-subtitle class="card-segment-subtitle">
-                            Order #{{order.id}}
-                            <ion-badge class="card-segment-badge"
-                                       [color]="getBadgeColorByOrderType(order.type)"></ion-badge>
-                        </ion-card-subtitle>
-                        <h3>{{ order.title }}</h3>
-                        <p>{{ order.content }}</p>
-                    </ion-card-header>
-                </ion-card>
-            </div>
-        </ion-list>
+        <div *ngFor="let order of searchedOrders">
+            <ion-card (click)="redirectToOrderPage(order.id)">
+                <ion-card-header>
+                    <ion-card-subtitle class="card-segment-subtitle">
+                        Order #{{order.id}}
+                        <ion-badge class="card-segment-badge"
+                                   [color]="getOrderStatusBadgeColor(order.id)"></ion-badge>
+                    </ion-card-subtitle>
+                    <h3>{{ order.title }}</h3>
+                    <p>{{ order.description }}</p>
+                </ion-card-header>
+            </ion-card>
+        </div>
     </div>
 
     <div *ngIf="!isLoading && currentUser.role === 'DRIVER'">

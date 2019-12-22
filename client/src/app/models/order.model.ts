@@ -4,8 +4,8 @@ export interface Order {
     description: string;
     initialPayment: number;
     deadlineDate: Date;
-    startLocation: Coordinates;
-    endLocation: Coordinates;
+    startLocation: string;
+    endLocation: string;
     driverId?: number;
 }
 

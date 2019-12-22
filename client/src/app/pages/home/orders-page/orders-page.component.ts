@@ -34,7 +34,11 @@ export class OrdersPage implements OnInit {
     }
 
     ngOnInit(): void {
-        this.ordersService.getPlannedOrders().subscribe(result => this.orders = result);
+        this.loadPlannedOrders();
+        this.ordersService.getReloadOrdersObservable().subscribe(() => {
+            this.orders = null;
+            this.loadPlannedOrders();
+        });
     }
 
     public redirectToOrderCreationPage(): void {
@@ -132,8 +136,14 @@ export class OrdersPage implements OnInit {
                     this.ordersService.getPlannedOrders().subscribe(result => {
                         this.orders = result;
                         ctrl.dismiss().then();
+                        this.isSelectionActive = false;
+                        this.dismissSelectionModal();
                     });
                 });
             });
+    }
+
+    private loadPlannedOrders(): void {
+        this.ordersService.getPlannedOrders().subscribe(result => this.orders = result);
     }
 }

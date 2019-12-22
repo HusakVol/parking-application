@@ -4,7 +4,7 @@ import { AlertController, LoadingController, ToastController } from '@ionic/angu
 import { OrdersService } from '../../../services/orders.service';
 import * as moment from 'moment';
 import { RoutingState } from '../../../utils/routing-state';
-import { Coordinates, Order } from '../../../models/order.model';
+import { Order } from '../../../models/order.model';
 import { Router } from '@angular/router';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
@@ -76,15 +76,8 @@ export class OrderCreationPage implements OnInit {
             .then(loading => {
                 loading.present();
 
-                const startLocation: Coordinates = {
-                    lng: this.orderStartLocationMarker.getPosition().lng(),
-                    lat: this.orderStartLocationMarker.getPosition().lat()
-                };
-
-                const endLocation: Coordinates = {
-                    lng: this.orderEndLocationMarker.getPosition().lng(),
-                    lat: this.orderEndLocationMarker.getPosition().lat()
-                };
+                const startLocation = `${this.orderStartLocationMarker.getPosition().lng()};${this.orderStartLocationMarker.getPosition().lat()}`;
+                const endLocation = `${this.orderEndLocationMarker.getPosition().lng()};${this.orderEndLocationMarker.getPosition().lat()}`;
 
                 const order: Order = {
                     title: this.form.controls.title.value,
@@ -134,6 +127,7 @@ export class OrderCreationPage implements OnInit {
     private clearAndCloseForm(): void {
         this.form.reset();
         this.isLocationView = false;
+        this.ordersService.reloadOrders();
         this.router.navigateByUrl('/home/my-orders');
     }
 

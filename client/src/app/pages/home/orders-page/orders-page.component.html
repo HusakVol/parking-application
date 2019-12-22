@@ -49,8 +49,8 @@
             </div>
         </div>
 
-        <div *ngIf="orders && !orders.length">
-            No data
+        <div *ngIf="orders && !orders.length" class="no-data-text">
+            No orders found
         </div>
 
         <div *ngIf="!orders">
