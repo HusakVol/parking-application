@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar>
         <div class="page-header">
-            <h1>My Orders</h1>
+            <h1>My Parkings</h1>
             <div *ngIf="selectedSegment === segments.PLANNED_ORDERS">
                 <ion-chip *ngIf="!isSelectionActive" (click)="changeSelectionStatus()">
                     <ion-icon name="radio-button-on"></ion-icon>
@@ -33,8 +33,8 @@
     <div class="page-content">
         <div *ngIf="orders && orders.length">
             <div class="order-card" *ngFor="let order of orders">
-                <ion-card [ngClass]="getOrderCardClass(order.id)"
-                          (click)="isSelectionActive ? selectOrder(order.id) : redirectToOrderPage(order.id)">
+                <ion-card [ngClass]="getParkingCardClass(order.id)"
+                          (click)="isSelectionActive ? selectParking(order.id) : redirectToParkingPage(order.id)">
                     <ion-card-header>
                         <ion-card-subtitle>{{'Order #' + order.id}}</ion-card-subtitle>
                         <ion-card-title>{{order.title}}</ion-card-title>
@@ -44,13 +44,13 @@
                 </ion-card>
 
                 <ion-checkbox *ngIf="isSelectionActive"
-                              [checked]="isOrderSelected(order.id)"
+                              [checked]="isParkingSelected(order.id)"
                               class="selection-checkbox"></ion-checkbox>
             </div>
         </div>
 
         <div *ngIf="orders && !orders.length" class="no-data-text">
-            No orders found
+            No parking found
         </div>
 
         <div *ngIf="!orders">
@@ -70,7 +70,7 @@
         </div>
     </div>
 
-    <ion-fab *ngIf="isAddOrderBtnVisible()" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab *ngIf="isAddParkingBtnVisible()" vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button (click)="redirectToOrderCreationPage()">
             <ion-icon name="add"></ion-icon>
         </ion-fab-button>

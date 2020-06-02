@@ -15,7 +15,7 @@ export class SearchPage implements OnInit {
 
     public isLoading = false;
     public currentUser: any = null;
-    public searchedOrders: Order[] = [];
+    public searchedParkings: Order[] = [];
 
     private searchQuery: string = '';
 
@@ -32,13 +32,13 @@ export class SearchPage implements OnInit {
 
         this.isLoading = true;
         this.ordersService.getOrdersBySearchQuery(this.searchQuery).subscribe(orders => {
-            this.searchedOrders = orders;
+            this.searchedParkings = orders;
             this.isLoading = false;
         });
     }
 
     public getOrderStatusBadgeColor(id: number): string {
-        const order = this.searchedOrders.find(o => o.id === id);
+        const order = this.searchedParkings.find(o => o.id === id);
         if (!order) return 'primary';
 
         if (!!order.driverId) return 'success';
@@ -57,7 +57,7 @@ export class SearchPage implements OnInit {
         this.isLoading = true;
         this.ordersService.getOrdersBySearchQuery(this.searchQuery)
             .subscribe(orders => {
-                this.searchedOrders = orders;
+                this.searchedParkings = orders;
                 this.isLoading = false;
             });
     }

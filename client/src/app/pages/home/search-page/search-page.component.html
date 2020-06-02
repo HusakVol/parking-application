@@ -5,7 +5,7 @@
         </div>
     </ion-toolbar>
 
-    <ion-searchbar placeholder="Find order..."
+    <ion-searchbar placeholder="Find parking..."
                    debounce="400"
                    (ionChange)="onSearchInputChanged($event)"
     ></ion-searchbar>
@@ -16,31 +16,31 @@
         <ion-spinner></ion-spinner>
     </div>
 
-    <div *ngIf="!isLoading && currentUser.role === 'CUSTOMER' && searchedOrders.length">
-        <div *ngFor="let order of searchedOrders">
-            <ion-card (click)="redirectToOrderPage(order.id)">
+    <div *ngIf="!isLoading && currentUser.role === 'CUSTOMER' && searchedParkings.length">
+        <div *ngFor="let parking of searchedParkings">
+            <ion-card (click)="redirectToOrderPage(parking.id)">
                 <ion-card-header>
                     <ion-card-subtitle class="card-segment-subtitle">
-                        Order #{{order.id}}
+                        Parking #{{parking.id}}
                         <ion-badge class="card-segment-badge"
-                                   [color]="getOrderStatusBadgeColor(order.id)"></ion-badge>
+                                   [color]="getOrderStatusBadgeColor(parking.id)"></ion-badge>
                     </ion-card-subtitle>
-                    <h3>{{ order.title }}</h3>
-                    <p>{{ order.description }}</p>
+                    <h3>{{ parking.title }}</h3>
+                    <p>{{ parking.description }}</p>
                 </ion-card-header>
             </ion-card>
         </div>
     </div>
 
-    <div *ngIf="!isLoading && currentUser.role === 'DRIVER'">
-        <div *ngFor="let order of searchedOrders">
-            <ion-card (click)="redirectToOrderPage(order.id)">
+    <div *ngIf="!isLoading">
+        <div *ngFor="let parking of searchedParkings">
+            <ion-card (click)="redirectToOrderPage(parking.id)">
                 <ion-card-header>
                     <ion-card-subtitle class="card-segment-subtitle">
-                        Order #{{order.id}}
+                        Parking #{{parking.id}}
                     </ion-card-subtitle>
-                    <h3>{{ order.title }}</h3>
-                    <p class="text-truncate">{{ order.description }}</p>
+                    <h3>{{ parking.title }}</h3>
+                    <p class="text-truncate">{{ parking.description }}</p>
                 </ion-card-header>
             </ion-card>
         </div>

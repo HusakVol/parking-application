@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets">
-    <name>Yarik express</name>
-    <description>An awesome Yarik express app.</description>
-    <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
+    <name>ParkingApp</name>
+    <description>Parking application</description>
+    <author email="vol.husak@gmail.com" href="http://ionicframework.com/">Volodymyr Husak</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />

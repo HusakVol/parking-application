@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { HomeRouting } from '../../constants/home-routing.enum';
-import { AuthService } from '../../services/auth.service';
-import { NavigationEnd, Router } from '@angular/router';
-import { HomeTab, HomeTabs } from '../../models/home-tab.model';
+import {Component, OnInit} from '@angular/core';
+import {HomeRouting} from '../../constants/home-routing.enum';
+import {AuthService} from '../../services/auth.service';
+import {NavigationEnd, Router} from '@angular/router';
+import {HomeTab, HomeTabs} from '../../models/home-tab.model';
 
 @Component({
     selector: 'app-home',
@@ -25,22 +25,14 @@ export class HomePage implements OnInit {
     public isTabsVisible(): boolean {
         const forbiddenRoutes = [
             `/home/${HomeRouting.CREATE_ORDER}`,
-            `/home/orders/`,
+            `/home/parkings/`,
         ];
 
         return !forbiddenRoutes.find(r => this.currentUrl.includes(r));
     }
 
     public getHomeTabs(): HomeTab[] {
-        const currentUserRole = this.user.role;
-        switch (currentUserRole) {
-            case 'DRIVER':
-                return HomeTabs.DRIVER;
-            case 'CUSTOMER':
-                return HomeTabs.CUSTOMER;
-            default:
-                return [];
-        }
+        return HomeTabs.DRIVER;
     }
 
     private listenRouterChanges(): void {

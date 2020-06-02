@@ -17,8 +17,8 @@ export class OrdersPage implements OnInit {
     selectedSegment: any = OrdersSegment.PLANNED_ORDERS;
     modal = null;
 
-    selectedOrdersIds: number[] = [];
-    orderSelectionSubject: BehaviorSubject<number>;
+    selectedParkingssIds: number[] = [];
+    parkingSelectionSubject: BehaviorSubject<number>;
 
     orders: Order[] = null;
 
@@ -30,7 +30,7 @@ export class OrdersPage implements OnInit {
         private router: Router,
         private loadingCtrl: LoadingController
     ) {
-        this.orderSelectionSubject = new BehaviorSubject(this.selectedOrdersIds.length);
+        this.parkingSelectionSubject = new BehaviorSubject(this.selectedParkingssIds.length);
     }
 
     ngOnInit(): void {
@@ -63,22 +63,22 @@ export class OrdersPage implements OnInit {
         }
     }
 
-    public isAddOrderBtnVisible(): boolean {
+    public isAddParkingBtnVisible(): boolean {
         return !this.isSelectionActive;
     }
 
-    public redirectToOrderPage(orderId: number): void {
+    public redirectToParkingPage(orderId: number): void {
         this.router.navigateByUrl(`/home/orders/${orderId}`);
     }
 
-    public selectOrder(orderId: number): void {
-        if (!this.isOrderSelected(orderId)) {
-            this.selectedOrdersIds.push(orderId);
+    public selectParking(parkingId: number): void {
+        if (!this.isParkingSelected(parkingId)) {
+            this.selectedParkingssIds.push(parkingId);
         } else {
-            this.selectedOrdersIds = this.selectedOrdersIds.filter(id => id !== orderId);
+            this.selectedParkingssIds = this.selectedParkingssIds.filter(id => id !== parkingId);
         }
 
-        this.orderSelectionSubject.next(this.selectedOrdersIds.length);
+        this.parkingSelectionSubject.next(this.selectedParkingssIds.length);
     }
 
     public changeSelectionStatus(): void {
@@ -91,15 +91,15 @@ export class OrdersPage implements OnInit {
         }
     }
 
-    public getOrderCardClass(orderId: number): string {
-        const isOrderSelected = this.isOrderSelected(orderId);
+    public getParkingCardClass(parkingId: number): string {
+        const isParkingSelected = this.isParkingSelected(parkingId);
         return this.isSelectionActive ?
-            isOrderSelected ? 'card selected' : 'card unselected'
+            isParkingSelected ? 'card selected' : 'card unselected'
             : 'card';
     }
 
-    public isOrderSelected(orderId: number): boolean {
-        return this.selectedOrdersIds.includes(orderId);
+    public isParkingSelected(parkingId: number): boolean {
+        return this.selectedParkingssIds.includes(parkingId);
     }
 
     private showSelectionModal(): void {
@@ -108,9 +108,8 @@ export class OrdersPage implements OnInit {
             cssClass: 'selection-modal',
             showBackdrop: false,
             componentProps: {
-                'itemsCountChange': this.orderSelectionSubject,
-                'itemName': 'Order',
-                'onDelete': () => this.deleteSelectedOrders()
+                'itemsCountChange': this.parkingSelectionSubject,
+                'itemName': 'Parking'
             },
         }).then(m => {
             m.present();
@@ -122,25 +121,10 @@ export class OrdersPage implements OnInit {
         if (this.modal) {
             this.modal.dismiss().then(_ => {
                 this.modal = null;
-                this.selectedOrdersIds = [];
-                this.orderSelectionSubject.next(this.selectedOrdersIds.length);
+                this.selectedParkingssIds = [];
+                this.parkingSelectionSubject.next(this.selectedParkingssIds.length);
             });
         }
-    }
-
-    private deleteSelectedOrders(): void {
-        this.loadingCtrl.create({message: 'Please wait...'})
-            .then(ctrl => {
-                ctrl.present();
-                this.ordersService.deleteOrdersByIds(this.selectedOrdersIds).subscribe(() => {
-                    this.ordersService.getPlannedOrders().subscribe(result => {
-                        this.orders = result;
-                        ctrl.dismiss().then();
-                        this.isSelectionActive = false;
-                        this.dismissSelectionModal();
-                    });
-                });
-            });
     }
 
     private loadPlannedOrders(): void {
