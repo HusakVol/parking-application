@@ -58,7 +58,7 @@ export class OrderPage implements OnInit {
             this.ordersService.assignDriverToOrder(this.order.id).subscribe(() => {
                 this.loading.dismiss().then();
                 this.ordersService.reloadOrders();
-                this.router.navigateByUrl('/home/orders-queue');
+                this.router.navigateByUrl('/home/user-profile');
             });
         })
     }
