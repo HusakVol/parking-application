@@ -1,4 +1,4 @@
-# yarik-express
+# parking-application
 
 ### Client side
 Technologies stack:
