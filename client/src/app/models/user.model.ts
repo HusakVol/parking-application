@@ -1,3 +1,5 @@
+import {Parking} from "./parking.model";
+
 export interface User {
     id: number,
     username: string,
@@ -5,10 +7,5 @@ export interface User {
     lastName: string;
     password: string,
     email: string,
-    role: UserRole
-}
-
-export interface UserRole {
-    CUSTOMER: 'CUSTOMER',
-    DRIVER: 'DRIVER'
+    parking: Parking
 }

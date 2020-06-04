@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Order } from '../../../models/order.model';
-import { OrdersService } from '../../../services/orders.service';
+import { Parking } from '../../../models/parking.model';
+import { ParkingsService } from '../../../services/parking.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { AuthService } from '../../../services/auth.service';
@@ -11,12 +11,12 @@ import { getFormattedDate } from '../../../utils';
 declare var google;
 
 @Component({
-    selector: 'app-order',
-    templateUrl: './order.page.html',
-    styleUrls: ['./order.page.scss'],
+    selector: 'app-parking',
+    templateUrl: './parking.page.html',
+    styleUrls: ['./parking.page.scss'],
 })
-export class OrderPage implements OnInit {
-    public order: Order;
+export class ParkingPage implements OnInit {
+    public parking: Parking;
     public user: any = null;
     public isLoading = true;
     public now = moment();
@@ -30,7 +30,7 @@ export class OrderPage implements OnInit {
     }
 
     constructor(
-        private ordersService: OrdersService,
+        private parkingsService: ParkingsService,
         private route: ActivatedRoute,
         private routingState: RoutingState,
         private authService: AuthService,
@@ -42,23 +42,26 @@ export class OrderPage implements OnInit {
     ngOnInit() {
         this.user = this.authService.getUser();
 
-        const orderId = Number(this.route.snapshot.paramMap.get('id'));
-        this.ordersService.getOrderById(orderId).subscribe(result => {
-            this.order = result;
+        const parkingId = Number(this.route.snapshot.paramMap.get('id'));
+        this.parkingsService.getParkingById(parkingId).subscribe(result => {
+            this.parking = result;
             this.isLoading = false;
         });
     }
 
-    public isProcessOrderButtonVisible(): boolean {
-        return this.user.role === 'DRIVER' && !this.order.driverId;
-    }
+    // public isProcessOrderButtonVisible(): boolean {
+    //     return this.user.role === 'DRIVER' && !this.parking.driverId;
+    // }
 
-    public processOrder(): void {
+    public processParking(): void {
         this.showLoadingModal().then(() => {
-            this.ordersService.assignDriverToOrder(this.order.id).subscribe(() => {
+            this.parkingsService.park(this.parking.id).subscribe(() => {
                 this.loading.dismiss().then();
-                this.ordersService.reloadOrders();
-                this.router.navigateByUrl('/home/user-profile');
+                if (!this.authService.getUser().parking)
+                    this.authService.getUser().parking = this.parking
+                else
+                    this.authService.getUser().parking = null
+                this.router.navigateByUrl('/home/my-profile');
             });
         })
     }
@@ -81,30 +84,19 @@ export class OrderPage implements OnInit {
                     this.mapElement.nativeElement,
                     {
                         center: {
-                            lng: parseFloat(this.order.startLocation.split(';')[0]),
-                            lat: parseFloat(this.order.startLocation.split(';')[1])
+                            lng: parseFloat(this.parking.location.split(';')[0]),
+                            lat: parseFloat(this.parking.location.split(';')[1])
                         },
                         zoom: 8
                     }
                 );
-
-                const startMarker = new google.maps.Marker({
-                    map,
-                    label: 'A',
-                    animation: google.maps.Animation.DROP,
-                    position: {
-                        lng: parseFloat(this.order.startLocation.split(';')[0]),
-                        lat: parseFloat(this.order.startLocation.split(';')[1])
-                    }
-                });
-
                 const endMarker = new google.maps.Marker({
                     map,
                     label: 'B',
                     animation: google.maps.Animation.DROP,
                     position: {
-                        lng: parseFloat(this.order.endLocation.split(';')[0]),
-                        lat: parseFloat(this.order.endLocation.split(';')[1])
+                        lng: parseFloat(this.parking.location.split(';')[0]),
+                        lat: parseFloat(this.parking.location.split(';')[1])
                     }
                 });
             }, 1);

@@ -23,5 +23,21 @@
                 </div>
             </ion-col>
         </ion-row>
+        <ion-row *ngIf="user.parking">
+                <ion-button disabled="true" expand="full" color="danger">Parked</ion-button>
+        </ion-row>
+        <!--        <ion-row>-->
+        <!--            <ion-card (click)="redirectToParkingPage(user.parking.id)">-->
+        <!--                <ion-card-header>-->
+        <!--                    <ion-card-subtitle class="card-segment-subtitle">-->
+        <!--                        Parking #{{user.parking.id}}-->
+        <!--                        <ion-badge class="card-segment-badge"-->
+        <!--                                   [color]="getParkingStatusBadgeColor(user.parking.id)"></ion-badge>-->
+        <!--                    </ion-card-subtitle>-->
+        <!--                    <h3>{{ user.parking.title }}</h3>-->
+        <!--                    <p>{{ user.parking.description }}</p>-->
+        <!--                </ion-card-header>-->
+        <!--            </ion-card>-->
+        <!--        </ion-row>-->
     </ion-grid>
 </ion-content>

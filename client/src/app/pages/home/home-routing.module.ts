@@ -15,28 +15,19 @@ const routes: Routes = [
                     .then(m => m.UserProfilePageModule)
             },
             {
-                path: HomeRouting.ORDER,
-                loadChildren: () => import('./order/order.module')
-                    .then(m => m.OrderPageModule)
+                path: HomeRouting.PARKING,
+                loadChildren: () => import('./parking/pakring.module')
+                    .then(m => m.ParkingPageModule)
             },
             {
-                path: HomeRouting.MY_ORDERS,
-                loadChildren: () => import('./orders-page/orders-page.module')
-                    .then(m => m.OrdersPageModule)
-            },
-            {
-                path: HomeRouting.CREATE_ORDER,
-                loadChildren: () => import('./order-creation/order-creation.module')
-                    .then(m => m.OrderCreationPageModule)
+                path: HomeRouting.MY_Parkings,
+                loadChildren: () => import('./parkings-page/parkings-page.module')
+                    .then(m => m.ParkingsPageModule)
             },
             {
                 path: HomeRouting.SEARCH,
                 loadChildren: () => import('./search-page/search-page.module')
                     .then(m => m.SearchPageModule)
-            },
-            {
-                path: HomeRouting.ORDERS_QUEUE,
-                loadChildren: () => import('./orders-queue/orders-queue.module').then(m => m.OrdersQueuePageModule)
             },
             {
                 path: '',

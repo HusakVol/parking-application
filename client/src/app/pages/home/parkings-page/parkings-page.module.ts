@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { OrdersPage } from './orders-page.component';
+import { OrdersPage } from './parkings-page.component';
 
 @NgModule({
     imports: [
@@ -14,5 +14,5 @@ import { OrdersPage } from './orders-page.component';
     ],
     declarations: [OrdersPage]
 })
-export class OrdersPageModule {
+export class ParkingsPageModule {
 }

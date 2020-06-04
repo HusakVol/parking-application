@@ -1,13 +1,10 @@
 export const HomeRouting = {
     // CUSTOMER
-    MY_ORDERS: 'my-orders',
-    CREATE_ORDER: 'create-order',
-
-    // DRIVER
-    ORDERS_QUEUE: 'orders-queue',
+    MY_Parkings: 'my-orders',
+    CREATE_ORDER: 'create-parking',
 
     // COMMON
     MY_PROFILE: 'my-profile',
-    ORDER: 'orders/:id',
+    PARKING: 'parkings/:id',
     SEARCH: 'search',
 };

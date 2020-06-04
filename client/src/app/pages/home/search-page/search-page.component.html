@@ -18,15 +18,16 @@
 
     <div *ngIf="!isLoading && currentUser.role === 'CUSTOMER' && searchedParkings.length">
         <div *ngFor="let parking of searchedParkings">
-            <ion-card (click)="redirectToOrderPage(parking.id)">
+            <ion-card (click)="redirectToParkingPage(parking.id)">
                 <ion-card-header>
                     <ion-card-subtitle class="card-segment-subtitle">
                         Parking #{{parking.id}}
                         <ion-badge class="card-segment-badge"
-                                   [color]="getOrderStatusBadgeColor(parking.id)"></ion-badge>
+                                   [color]="getParkingStatusBadgeColor(parking.id)"></ion-badge>
                     </ion-card-subtitle>
                     <h3>{{ parking.title }}</h3>
-                    <p>{{ parking.description }}</p>
+                    <p>{{ calculateDistance(parking.location) + " meters"}}</p>
+
                 </ion-card-header>
             </ion-card>
         </div>
@@ -34,13 +35,13 @@
 
     <div *ngIf="!isLoading">
         <div *ngFor="let parking of searchedParkings">
-            <ion-card (click)="redirectToOrderPage(parking.id)">
+            <ion-card (click)="redirectToParkingPage(parking.id)">
                 <ion-card-header>
                     <ion-card-subtitle class="card-segment-subtitle">
                         Parking #{{parking.id}}
                     </ion-card-subtitle>
                     <h3>{{ parking.title }}</h3>
-                    <p class="text-truncate">{{ parking.description }}</p>
+                    <p>{{ calculateDistance(parking.location) + " meters"}}</p>
                 </ion-card-header>
             </ion-card>
         </div>

@@ -3,7 +3,7 @@
         <ion-buttons slot="start">
             <ion-back-button [defaultHref]="getPreviousUrl()"></ion-back-button>
         </ion-buttons>
-        <ion-title>Order #{{ order.id }}</ion-title>
+        <ion-title>Parking #{{ parking.id }}</ion-title>
     </ion-toolbar>
 
     <ion-segment style="padding: 0.5em;" (ionChange)="segmentChanged($event)">
@@ -20,29 +20,29 @@
 
 <ion-content>
     <ion-list *ngIf="!isLoading && !isMapView" class="order-info">
-        <h1>{{ order.title }}</h1>
+        <h1>{{ parking.title }}</h1>
 
         <ion-item class="ion-no-padding">
-            <ion-label>Payment</ion-label>
+            <ion-label>Price per hour</ion-label>
             <ion-note slot="end" color="primary">
-                {{ order.initialPayment + '$' }}
+                {{ '$' + parking.pricePerHour }}
             </ion-note>
         </ion-item>
 
         <ion-item class="ion-no-padding">
-            <ion-label>Deadline date</ion-label>
+            <ion-label>Free places</ion-label>
             <ion-note slot="end" color="primary">
-                {{ getFormattedDate(order.deadlineDate) }}
+                {{ parking.freePlaces + "/" + parking.capacity }}
             </ion-note>
         </ion-item>
 
-        <p>{{ order.description }}</p>
+        <p>{{ parking.description }}</p>
     </ion-list>
 
-    <div *ngIf="!isLoading && isProcessOrderButtonVisible()"
-         (click)="processOrder()"
-         class="process-order-action">
-        <ion-button expand="full" color="success">Take order</ion-button>
+    <div *ngIf="!isLoading"
+         (click)="processParking()"
+         class="process-parking-action">
+        <ion-button expand="full" color="success">Park/Unpark</ion-button>
     </div>
 
     <div *ngIf="isLoading" class="order-loading-spinner">
